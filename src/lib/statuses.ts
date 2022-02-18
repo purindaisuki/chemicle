@@ -1,4 +1,4 @@
-import { solution } from './words'
+import { solution } from './molecules'
 
 export type CharStatus = 'absent' | 'present' | 'correct'
 
@@ -7,8 +7,8 @@ export const getStatuses = (
 ): { [key: string]: CharStatus } => {
   const charObj: { [key: string]: CharStatus } = {}
 
-  guesses.forEach((word) => {
-    word.split('').forEach((letter, i) => {
+  guesses.forEach((molecule) => {
+    molecule.split('').forEach((letter, i) => {
       if (!solution.includes(letter)) {
         // make status absent
         return (charObj[letter] = 'absent')
@@ -25,7 +25,6 @@ export const getStatuses = (
       }
     })
   })
-
   return charObj
 }
 

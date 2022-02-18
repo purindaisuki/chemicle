@@ -14,23 +14,23 @@ import {
   WIN_MESSAGES,
   GAME_COPIED_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
-  WORD_NOT_FOUND_MESSAGE,
-  CORRECT_WORD_MESSAGE,
+  MOLECULE_NOT_FOUND_MESSAGE,
+  CORRECT_MOLECULE_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
 } from './constants/strings'
 import {
-  MAX_WORD_LENGTH,
+  MAX_MOLECULE_LENGTH,
   MAX_CHALLENGES,
   ALERT_TIME_MS,
   REVEAL_TIME_MS,
   GAME_LOST_INFO_DELAY,
 } from './constants/settings'
 import {
-  isWordInWordList,
-  isWinningWord,
+  doesMoleculeExist,
+  isWinningMolecule,
   solution,
   findFirstUnusedReveal,
-} from './lib/words'
+} from './lib/molecules'
 import { addStatsForCompletedGame, loadStats } from './lib/stats'
 import {
   loadGameStateFromLocalStorage,
@@ -79,7 +79,7 @@ function App() {
     }
     if (loaded.guesses.length === MAX_CHALLENGES && !gameWasWon) {
       setIsGameLost(true)
-      showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
+      showErrorAlert(CORRECT_MOLECULE_MESSAGE(solution), {
         persist: true,
       })
     }
@@ -93,6 +93,8 @@ function App() {
       ? localStorage.getItem('gameMode') === 'hard'
       : false
   )
+
+  const [isCapital, setCapital] = useState(true)
 
   useEffect(() => {
     // if no game state on load,
@@ -143,7 +145,7 @@ function App() {
     if (isGameWon) {
       const winMessage =
         WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
-      const delayMs = REVEAL_TIME_MS * MAX_WORD_LENGTH
+      const delayMs = REVEAL_TIME_MS * MAX_MOLECULE_LENGTH
 
       showSuccessAlert(winMessage, {
         delayMs,
@@ -160,12 +162,16 @@ function App() {
 
   const onChar = (value: string) => {
     if (
-      currentGuess.length < MAX_WORD_LENGTH &&
+      currentGuess.length < MAX_MOLECULE_LENGTH &&
       guesses.length < MAX_CHALLENGES &&
       !isGameWon
     ) {
       setCurrentGuess(`${currentGuess}${value}`)
     }
+  }
+
+  const onCaps = () => {
+    setCapital(!isCapital)
   }
 
   const onDelete = () => {
@@ -176,7 +182,7 @@ function App() {
     if (isGameWon || isGameLost) {
       return
     }
-    if (!(currentGuess.length === MAX_WORD_LENGTH)) {
+    if (!(currentGuess.length === MAX_MOLECULE_LENGTH)) {
       showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE)
       setCurrentRowClass('jiggle')
       return setTimeout(() => {
@@ -184,8 +190,8 @@ function App() {
       }, ALERT_TIME_MS)
     }
 
-    if (!isWordInWordList(currentGuess)) {
-      showErrorAlert(WORD_NOT_FOUND_MESSAGE)
+    if (!doesMoleculeExist(currentGuess)) {
+      showErrorAlert(MOLECULE_NOT_FOUND_MESSAGE)
       setCurrentRowClass('jiggle')
       return setTimeout(() => {
         setCurrentRowClass('')
@@ -209,12 +215,12 @@ function App() {
     // chars have been revealed
     setTimeout(() => {
       setIsRevealing(false)
-    }, REVEAL_TIME_MS * MAX_WORD_LENGTH)
+    }, REVEAL_TIME_MS * MAX_MOLECULE_LENGTH)
 
-    const winningWord = isWinningWord(currentGuess)
+    const winningWord = isWinningMolecule(currentGuess)
 
     if (
-      currentGuess.length === MAX_WORD_LENGTH &&
+      currentGuess.length === MAX_MOLECULE_LENGTH &&
       guesses.length < MAX_CHALLENGES &&
       !isGameWon
     ) {
@@ -229,9 +235,9 @@ function App() {
       if (guesses.length === MAX_CHALLENGES - 1) {
         setStats(addStatsForCompletedGame(stats, guesses.length + 1))
         setIsGameLost(true)
-        showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
+        showErrorAlert(CORRECT_MOLECULE_MESSAGE(solution), {
           persist: true,
-          delayMs: REVEAL_TIME_MS * MAX_WORD_LENGTH + 1,
+          delayMs: REVEAL_TIME_MS * MAX_MOLECULE_LENGTH + 1,
         })
       }
     }
@@ -266,8 +272,10 @@ function App() {
         onChar={onChar}
         onDelete={onDelete}
         onEnter={onEnter}
+        onCaps={onCaps}
         guesses={guesses}
         isRevealing={isRevealing}
+        isCapital={isCapital}
       />
       <InfoModal
         isOpen={isInfoModalOpen}

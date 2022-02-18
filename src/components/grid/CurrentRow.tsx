@@ -1,4 +1,4 @@
-import { MAX_WORD_LENGTH } from '../../constants/settings'
+import { MAX_MOLECULE_LENGTH } from '../../constants/settings'
 import { Cell } from './Cell'
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 
 export const CurrentRow = ({ guess, className }: Props) => {
   const splitGuess = guess.split('')
-  const emptyCells = Array.from(Array(MAX_WORD_LENGTH - splitGuess.length))
+  const emptyCells = Array.from(Array(MAX_MOLECULE_LENGTH - splitGuess.length))
   const classes = `flex justify-center mb-1 ${className}`
 
   return (

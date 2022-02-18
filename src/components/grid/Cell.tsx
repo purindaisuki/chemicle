@@ -24,8 +24,10 @@ export const Cell = ({
   const isHighContrast = getStoredIsHighContrastMode()
 
   const classes = classnames(
-    'w-14 h-14 border-solid border-2 flex items-center justify-center mx-0.5 text-4xl font-bold rounded dark:text-white',
+    'w-14 h-14 border-solid border-2 flex justify-center mx-0.5 font-bold rounded dark:text-white',
     {
+      'text-3xl items-end': value && value >= '1' && value <= '9',
+      'text-4xl items-center': value && (value < '1' || value > '9'),
       'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600':
         !status,
       'border-black dark:border-slate-100': value && !status,
