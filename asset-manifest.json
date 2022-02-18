@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.fcf922a0.css",
-    "main.js": "/static/js/main.d39823bb.js",
-    "static/js/787.d62e8426.chunk.js": "/static/js/787.d62e8426.chunk.js",
-    "index.html": "/index.html",
-    "main.fcf922a0.css.map": "/static/css/main.fcf922a0.css.map",
-    "main.d39823bb.js.map": "/static/js/main.d39823bb.js.map",
-    "787.d62e8426.chunk.js.map": "/static/js/787.d62e8426.chunk.js.map"
+    "main.css": "/chemicle/static/css/main.fcf922a0.css",
+    "main.js": "/chemicle/static/js/main.2412fe15.js",
+    "static/js/787.d62e8426.chunk.js": "/chemicle/static/js/787.d62e8426.chunk.js",
+    "index.html": "/chemicle/index.html",
+    "main.fcf922a0.css.map": "/chemicle/static/css/main.fcf922a0.css.map",
+    "main.2412fe15.js.map": "/chemicle/static/js/main.2412fe15.js.map",
+    "787.d62e8426.chunk.js.map": "/chemicle/static/js/787.d62e8426.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fcf922a0.css",
-    "static/js/main.d39823bb.js"
+    "static/js/main.2412fe15.js"
   ]
 }
